@@ -34,7 +34,7 @@ def predict_protection():
         
         response = {
             'location': data.get('Location', '').upper(),
-            'protection_methods': interpret_protection(protection_prediction)
+            'protection_recommendations': interpret_protection(protection_prediction, data)
         }
         
         return jsonify(response)

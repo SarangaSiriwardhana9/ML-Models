@@ -1,4 +1,6 @@
 import pandas as pd
+from app.weather_data.protection_methods import protection_methods, get_protection_explanation
+from app.weather_data.weather_conditions import assess_weather_condition
 
 location_map = {
     'PUTTALAM': 0,
@@ -9,20 +11,6 @@ watering_frequency_map = {
     0: 'No watering',
     1: 'Water once',
     2: 'Water twice'
-}
-
-protection_methods = {
-    'MU': 'Mulching',
-    'SH': 'Shading',
-    'FW': 'Frequent Watering',
-    'WB': 'Windbreaks',
-    'SE': 'Soil Enrichment',
-    'DS': 'Drainage System',
-    'CP': 'Cover the Plants',
-    'SP': 'Stake the Plants',
-    'SB': 'Sand Pillows (Bags)',
-    'AF': 'Avoid Over-Fertilizing',
-    'PI': 'Inspect Regularly for Pests/Diseases'
 }
 
 def prepare_input_data(data):
@@ -43,6 +31,20 @@ def interpret_watering(prediction):
     water_used = round(prediction[1], 1)
     return f"{watering_frequency} with approximately {water_used} L/m² of water."
 
-def interpret_protection(prediction):
-    return [protection_methods.get(method, method) for method in prediction]
+def interpret_protection(prediction, weather_data):
+    weather_condition = assess_weather_condition(weather_data)
+    recommended_methods = [protection_methods[method] for method in prediction if method in protection_methods]
+    
+    detailed_recommendations = []
+    for method in recommended_methods:
+        explanation = get_protection_explanation(method, weather_condition)
+        detailed_recommendations.append({
+            "method": method,
+            "explanation": explanation
+        })
+    
+    return {
+        "weather_condition": weather_condition,
+        "recommendations": detailed_recommendations
+    }
 
