@@ -13,17 +13,28 @@ watering_frequency_map = {
     2: 'Water twice'
 }
 
-def prepare_input_data(data):
+fertilizer_recommendation_map = {
+    0: 'Not Recommended',
+    1: 'Recommended'
+}
+
+def prepare_input_data(data, model_type):
     location = data.get('Location', '').upper()
     if location not in location_map:
         raise ValueError('Invalid location. Please use PUTTALAM or KURUNEGALA.')
 
-    input_data = {
-        'Rainfall (mm)': data.get('Rainfall (mm)'),
-        'Min Temp (°C)': data.get('Min Temp (°C)'),
-        'Max Temp (°C)': data.get('Max Temp (°C)'),
-        'Location': location_map[location]
-    }
+    if model_type == 'fertilizer':
+        input_data = {
+            'Rainfall (mm)': data.get('Rainfall (mm)'),
+            'Location': location_map[location]
+        }
+    else:
+        input_data = {
+            'Rainfall (mm)': data.get('Rainfall (mm)'),
+            'Min Temp (°C)': data.get('Min Temp (°C)'),
+            'Max Temp (°C)': data.get('Max Temp (°C)'),
+            'Location': location_map[location]
+        }
     return pd.DataFrame([input_data])
 
 def interpret_watering(prediction):
@@ -47,4 +58,7 @@ def interpret_protection(prediction, weather_data):
         "weather_condition": weather_condition,
         "recommendations": detailed_recommendations
     }
+
+def interpret_fertilizer(prediction):
+    return fertilizer_recommendation_map[prediction]
 
