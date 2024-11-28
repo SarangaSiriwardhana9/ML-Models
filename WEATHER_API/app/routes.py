@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app.models import WeatherModel
 from app.utils import prepare_input_data, interpret_watering, interpret_protection, interpret_fertilizer
+from datetime import datetime
 
 bp = Blueprint('main', __name__)
 weather_model = WeatherModel()
@@ -51,9 +52,18 @@ def predict_fertilizer():
         
         fertilizer_prediction = weather_model.predict_fertilizer(input_data)
         
+        previous_applications = data.get('previous_applications', [])
+        for app in previous_applications:
+            app['date'] = datetime.strptime(app['date'], '%Y-%m-%d')
+        
         response = {
             'location': data.get('Location', '').upper(),
-            'fertilizer_recommendation': interpret_fertilizer(fertilizer_prediction)
+            'fertilizer_recommendation': interpret_fertilizer(
+                fertilizer_prediction, 
+                data['Rainfall (mm)'],
+                previous_applications,
+                data.get('Location', '').upper()
+            )
         }
         
         return jsonify(response)

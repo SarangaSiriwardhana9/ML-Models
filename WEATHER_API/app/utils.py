@@ -1,6 +1,8 @@
 import pandas as pd
+from datetime import datetime
 from app.weather_data.protection_methods import protection_methods, get_protection_explanation
 from app.weather_data.weather_conditions import assess_weather_condition
+from app.fertilizer_schedule import get_fertilizer_recommendation
 
 location_map = {
     'PUTTALAM': 0,
@@ -59,6 +61,22 @@ def interpret_protection(prediction, weather_data):
         "recommendations": detailed_recommendations
     }
 
-def interpret_fertilizer(prediction):
-    return fertilizer_recommendation_map[prediction]
+def interpret_fertilizer(prediction, rainfall, previous_applications, location):
+    ml_recommendation = fertilizer_recommendation_map[prediction]
+    
+    if ml_recommendation == 'Recommended':
+        explanation = f"Based on the current rainfall ({rainfall} mm), fertilizing is generally recommended. The conditions are suitable for nutrient absorption without significant risk of leaching."
+    else:
+        if rainfall > 10:
+            explanation = f"Due to heavy rainfall ({rainfall} mm), fertilizing is not recommended by the ML model. There's a high risk of nutrient leaching and potential water pollution."
+        else:
+            explanation = f"With low rainfall ({rainfall} mm), fertilizing is not recommended by the ML model. The soil might be too dry for effective nutrient absorption."
+    
+    schedule_recommendation = get_fertilizer_recommendation(previous_applications, location)
+    
+    return {
+        "ml_recommendation": ml_recommendation,
+        "ml_explanation": explanation,
+        "next_application": schedule_recommendation
+    }
 
