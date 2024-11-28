@@ -14,9 +14,9 @@ protection_methods = {
 
 def get_protection_explanation(method, weather_condition):
     explanations = {
-        'Mulching': "Spread organic mulch around the base of the plants to retain soil moisture and reduce evaporation.",
+        'Mulching': "පාංශු තෙතමනය රඳවා ගැනීමට සහ වාෂ්පීකරණය අඩු කිරීමට ශාක පාමුල කාබනික වසුන් ව්‍යාප්ත කරන්න.",
         'Shading': "Use shade nets or temporary coverings to protect the plants from direct sunlight during peak hours.",
-        'Frequent Watering': "Water the plants early in the morning or late in the evening to prevent dehydration. Use drip irrigation or sprinklers for efficient water distribution.",
+        'Frequent Watering': "විජලනය වැළැක්වීම සඳහා උදේ හෝ සවස් වරුවේ පැලවලට වතුර දමන්න. කාර්යක්ෂම ජලය බෙදා හැරීම සඳහා බිංදු ජල ඉසීම හෝ ජල විදිනයක් භාවිතා කරන්න.",
         'Windbreaks': "Place temporary barriers around the field to reduce hot, dry winds that can stress the plants.",
         'Soil Enrichment': "Apply compost or organic manure to improve soil water-holding capacity and boost root development under stress.",
         'Drainage System': "Build small trenches or channels around the plants to quickly drain excess water and prevent waterlogging.",

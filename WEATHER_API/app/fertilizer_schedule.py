@@ -5,15 +5,15 @@ def get_fertilizer_type(year, month, day, location):
         return None
     
     if month in [3, 4]:
-        return "Cow dung" if location.upper() == "PUTTALAM" else "Compost"
+        return "ගොම පොහොර" if location.upper() == "PUTTALAM" else "කොම්පෝස්ට්"
     elif month in [5, 6] and day in [1, 15]:
-        return "Balanced NPK (10-10-10)"
+        return "NPK පොහොර (10-10-10) අනුපාතයට"
     elif month in [7, 8] and day == 1:
-        return "Poultry manure"
+        return "සත්ව අපද්‍රව්‍ය"
     elif month in [9, 10] and day == 1:
-        return "Balanced NPK (10-10-10)"
+        return "NPK පොහොර (10-10-10) අනුපාතයට"
     elif month in [11, 12, 1, 2] and day == 1:
-        return "Gliricidia leaves"
+        return "ග්ලිරිසීඩියා පත්‍ර"
     else:
         return None
 

@@ -15,23 +15,23 @@ location_map = {
 }
 
 watering_frequency_map = {
-    0: 'No watering',
-    1: 'Water once',
-    2: 'Water twice'
+    0: 'ජලය දැමීම අත්‍යවශ්‍ය නොවේ',
+    1: 'ආසන්න වශයෙන් {water_used} L/m² බැගින් ජලය එක් වරක් ‍යොදන්න',
+    2: 'ආසන්න වශයෙන් {water_used} L/m² බැගින් ජලය දෙවරක් ‍යොදන්න'
 }
 
 protection_methods = {
-    'MU': 'Mulching',
-    'SH': 'Shading',
-    'FW': 'Frequent Watering',
-    'WB': 'Windbreaks',
-    'SE': 'Soil Enrichment',
-    'DS': 'Drainage System',
-    'CP': 'Cover the Plants',
-    'SP': 'Stake the Plants',
-    'SB': 'Sand Pillows (Bags)',
-    'AF': 'Avoid Over-Fertilizing',
-    'PI': 'Inspect Regularly for Pests/Diseases'
+    'MU': 'මල්චින්ග් (Mulching)',
+    'SH': 'සෙඩ් නිවරණ (Shading)',
+    'FW': 'පෙරළි ජලය යොදීම (Frequent Watering)',
+    'WB': 'සුලඟ ආරක්ෂක (Windbreaks)',
+    'SE': 'බිම පෝෂණය (Soil Enrichment)',
+    'DS': 'දිය අයදුම් ක්‍රම (Drainage System)',
+    'CP': 'ගස් ආවරණය කිරීම (Cover the Plants)',
+    'SP': 'ගස් ස්ථිර කිරීම (Stake the Plants)',
+    'SB': 'පොලව ආරක්ෂාව සඳහා වැලි බෑග් (Sand Pillows)',
+    'AF': 'ඉහළ පොහොර යෙදීම වැලැක්වීම (Avoid Over-Fertilizing)',
+    'PI': 'පළිබෝධ පරීක්ෂාව (Inspect for Pests/Diseases)'
 }
 
 @app.route('/predict', methods=['POST'])
@@ -60,8 +60,9 @@ def predict():
     protection_prediction = protection_model.predict(df)[0]
     
     # Interpret watering prediction
-    watering_frequency = watering_frequency_map[round(watering_prediction[0])]
+    watering_frequency = int(round(watering_prediction[0]))
     water_used = round(watering_prediction[1], 1)
+    watering_recommendation = watering_frequency_map[watering_frequency].format(water_used=water_used)
 
     # Interpret protection prediction
     predicted_protection_methods = [protection_methods[method] for method in protection_prediction if method in protection_methods]
@@ -69,7 +70,7 @@ def predict():
     # Prepare response
     response = {
         'location': location,
-        'watering_recommendation': f"{watering_frequency} with approximately {water_used} L/m² of water.",
+        'watering_recommendation': watering_recommendation,
         'protection_methods': predicted_protection_methods
     }
 
@@ -77,4 +78,3 @@ def predict():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
