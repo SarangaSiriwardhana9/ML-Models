@@ -31,7 +31,8 @@ protection_methods = {
     'SP': 'ගස් ස්ථිර කිරීම (Stake the Plants)',
     'SB': 'පොලව ආරක්ෂාව සඳහා වැලි බෑග් (Sand Pillows)',
     'AF': 'ඉහළ පොහොර යෙදීම වැලැක්වීම (Avoid Over-Fertilizing)',
-    'PI': 'පළිබෝධ පරීක්ෂාව (Inspect for Pests/Diseases)'
+    'PI': 'පළිබෝධ පරීක්ෂාව (Inspect for Pests/Diseases)',
+    'NP': 'නොපැලීම (No Protection)'
 }
 
 @app.route('/predict', methods=['POST'])
