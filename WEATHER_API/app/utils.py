@@ -25,7 +25,7 @@ fertilizer_recommendation_map = {
 def prepare_input_data(data, model_type):
     location = data.get('Location', '').upper()
     if location not in location_map:
-        raise ValueError('Invalid location. Please use PUTTALAM or KURUNEGALA.')
+        raise ValueError('කරුණාකර පුත්තලම හෝ කුරුණෑගල ප්‍රදේශ පමනක් ඇතුලත් කරන්න.')
 
     if model_type == 'fertilizer':
         input_data = {
@@ -72,7 +72,7 @@ def interpret_fertilizer(prediction, rainfall, previous_applications, location):
         if rainfall > 10:
             explanation = f"අධික වර්ෂාපතනය (මි.මී.{rainfall}), හේතුවෙන් මෙදින අප විසින් පොහොර යෙදීම නිර්දේශ නොකරනු ලැබේ. මන්ද යත් පෝෂක කාන්දු වීම සහ ජලය දූෂණය වීමේ ඉහළ අවදානමක් පවතී.."
         else:
-            explanation = f"With low rainfall ({rainfall} mm), fertilizing is not recommended by the ML model. The soil might be too dry for effective nutrient absorption."
+            explanation = f"උණූසුම් කාලගුණය හා අඩු වර්ශාපතනය හේතුවෙන් ({rainfall} mm), පොහොර දැමීම අප විසින් නිර්දේශ නොකරයි. මන්දයත් වියලි පස මගින් පෝශක අවශෝශනය එතරම් ඵ්ලදායී ලෙස සිදු නොවේ"
 
     schedule_recommendation = get_fertilizer_recommendation(previous_applications, location)
     
